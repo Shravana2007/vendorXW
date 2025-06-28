@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VendorX | Smart Vendor Platform</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+    header {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+    header img {
+      width: 80px;
+    }
+    nav {
+      background: #333;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+      flex-wrap: wrap;
+    }
+    nav ul li {
+      position: relative;
+    }
+    nav ul li a {
+      display: block;
+      padding: 14px 20px;
+      color: white;
+      text-decoration: none;
+    }
+    nav ul li:hover {
+      background: #444;
+    }
+    nav ul li ul {
+      display: none;
+      position: absolute;
+      background: #444;
+      top: 48px;
+      left: 0;
+      min-width: 160px;
+      z-index: 1;
+    }
+    nav ul li:hover ul {
+      display: block;
+    }
+    section {
+      padding: 2rem;
+    }
+    .dashboard {
+      display: flex;
+      gap: 1rem;
+      padding: 2rem;
+    }
+    .category-panel {
+      width: 250px;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .subcategory-list {
+      margin-top: 1rem;
+    }
+    .subcategory-item {
+      cursor: pointer;
+      padding: 0.3rem;
+      border-radius: 5px;
+      background: #f0f0f0;
+      margin-bottom: 0.5rem;
+    }
+    .subcategory-item:hover {
+      background: #e0e0e0;
+    }
+    .items-panel {
+      flex: 1;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .item-card {
+      border: 1px solid #ddd;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .item-card img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .item-card input[type="text"],
+    .item-card input[type="file"] {
+      padding: 0.4rem;
+      flex: 1;
+    }
+    .item-card i {
+      font-size: 1.5rem;
+      color: #007bff;
+      width: 30px;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #333;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <img src="your-logo.png" alt="VendorX Logo" />
+    <h1>VendorX</h1>
+    <p>Your smart marketplace for vendors and customers.</p>
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Women ▼</a>
+        <ul>
+          <li><a href="#">Dresses</a></li>
+          <li><a href="#">Kurtas</a></li>
+          <li><a href="#">Jeans</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Men ▼</a>
+        <ul>
+          <li><a href="#">Shirts</a></li>
+          <li><a href="#">Shoes</a></li>
+        </ul>
+      </li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Admin Dashboard -->
+  <section class="dashboard">
+    <!-- Sidebar: Subcategories -->
+    <div class="category-panel">
+      <h3>Subcategories</h3>
+      <div class="subcategory-list" id="subcategoryList">
+        <div class="subcategory-item" onclick="loadItems('Gloves')">Gloves</div>
+        <div class="subcategory-item" onclick="loadItems('Shoes')">Shoes</div>
+        <div class="subcategory-item" onclick="loadItems('Earplugs')">Earplugs</div>
+        <div class="subcategory-item" onclick="loadItems('Helmet')">Helmet</div>
+        <div class="subcategory-item" onclick="loadItems('First Aid Kit')">First Aid Kit</div>
+      </div>
+    </div>
+
+    <!-- Item Cards -->
+    <div class="items-panel" id="itemsPanel">
+      <h3 id="currentSubHeader">Items</h3>
+      <div id="itemSlots">
+        <!-- 10 dynamic cards will be generated here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 VendorX. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript for Dynamic Item Cards and File Upload -->
+  <script>
+    function loadItems(subcategory) {
+      document.getElementById("currentSubHeader").innerText = subcategory + " Items";
+      const container = document.getElementById("itemSlots");
+      container.innerHTML = "";
+      for (let i = 1; i <= 10; i++) {
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.innerHTML = `
+          <i class="fas fa-box"></i>
+          <input type="text" placeholder="Item Name (e.g. ${subcategory} Item)" />
+          <input type="text" placeholder="Price" style="width:80px" />
+          <input type="file" accept="image/*" onchange="previewImage(this)" />
+          <img src="https://via.placeholder.com/60" />
+        `;
+        container.appendChild(card);
+      }
+    }
+
+    function previewImage(input) {
+      const file = input.files[0];
+      const img = input.nextElementSibling;
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+
+</body>
+</html>
